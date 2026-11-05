@@ -4,7 +4,7 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const nomesTipo = {doacao:'Doação', pedido:'Pedido de apoio', permuta:'Permuta', oportunidade:'Oportunidade'};
-const nomesCategoria = {itens:'Itens essenciais', aprendizagem:'Aprendizagem', trabalho:'Trabalho'};
+const nomesCategoria = Object.fromEntries([...$('categoria').options].map(o => [o.value,o.textContent]));
 const nomesStatus = {aberto:'Aberto', reservado:'Reservado', concluido:'Concluído'};
 let chaveGestao = ''; // Memória da página; não vai para URL, cookie ou armazenamento.
 let paginaAtual = 1;
@@ -48,7 +48,7 @@ function mensagem(texto, falha = false) {
 function card(item) {
   const article = criar('article','card ' + item.categoria);
   const topo = criar('div','card-topo');
-  const simbolo = criar('span','icone-card',{itens:'↗',aprendizagem:'Aa',trabalho:'✦'}[item.categoria]);
+  const simbolo = criar('span','icone-card',({alimentos:'◎',excedentes:'↺',marmitas:'♡',caronas:'↗',aprendizagem:'Aa',trabalho:'✦',reciclaveis:'♻',oleo:'◉',compostagem:'♧',hortas:'❋'}[item.categoria] || '+'));
   simbolo.setAttribute('aria-hidden','true');
   topo.append(simbolo, criar('span','tipo-pill',nomesTipo[item.tipo]));
   const corpo = criar('div','card-corpo');
@@ -59,7 +59,7 @@ function card(item) {
   const botao = criar('button','texto-botao','Ver anúncio →');
   botao.setAttribute('aria-label','Ver anúncio: ' + item.titulo);
   botao.addEventListener('click',() => detalhes(item.id));
-  fim.append(criar('span','status ' + item.status,nomesStatus[item.status]),botao);
+  fim.append(criar('span','status ' + item.status,item.expirado ? 'Prazo encerrado' : nomesStatus[item.status]),botao);
   corpo.append(fim); article.append(topo,corpo); return article;
 }
 
@@ -85,9 +85,9 @@ async function carregarMural() {
 
 async function carregarMunicipios() {
   const dados = await api('/api/municipios');
-  for (const id of ['municipio','filtro-municipio']) {
+  for (const id of ['municipio','filtro-municipio','municipio-necessidade','filtro-territorio']) {
     const select = $(id); const anterior = select.value;
-    select.replaceChildren(new Option(id === 'municipio' ? 'Selecione' : 'Todos os municípios',''));
+    select.replaceChildren(new Option(['municipio','municipio-necessidade'].includes(id) ? 'Selecione' : 'Todos os municípios',''));
     for (const item of dados.items) select.add(new Option(`${item.nome} / ${item.uf}`,String(item.id)));
     if ([...select.options].some(opcao => opcao.value === anterior)) select.value = anterior;
   }
@@ -102,7 +102,11 @@ function abrirFormulario(item = null) {
     for (const nome of ['titulo','tipo','categoria','descricao','contrapartida']) $(nome).value = item[nome];
     $('municipio').value = String(item.municipio_id); $('situacao').value = item.status;
   }
-  ajustarPermuta(); $('dialog-anuncio').showModal();
+  if (item && item.detalhes) {
+    for (const k of ['quantidade','unidade','cuidados','origem','destino']) if(item.detalhes[k] !== undefined) $(k==='quantidade'?'quantidade-oferta':k).value=item.detalhes[k];
+    if(item.detalhes.disponivel_ate) {const d=new Date(item.detalhes.disponivel_ate); $('disponivel-ate').value=new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16);}
+  }
+  ajustarPermuta(); ajustarArea(); $('dialog-anuncio').showModal();
 }
 
 function ajustarPermuta() {
@@ -122,6 +126,11 @@ async function detalhes(id) {
     $('descricao-detalhe').textContent = item.descricao;
     const fatos = [['Município',item.municipio + ' / ' + item.uf],['Situação',nomesStatus[item.status]],
       ['Identificador',String(item.id)],['Atualizado',new Date(item.atualizado_em).toLocaleString('pt-BR')]];
+    const d=item.detalhes || {};
+    if(d.quantidade) fatos.push(['Quantidade',d.quantidade+' '+d.unidade]);
+    if(d.disponivel_ate) fatos.push(['Disponibilidade',new Date(d.disponivel_ate).toLocaleString('pt-BR')+(item.expirado?' · prazo encerrado':'')]);
+    if(d.cuidados) fatos.push(['Condições informadas',d.cuidados]);
+    if(d.origem) fatos.push(['Trajeto aproximado',d.origem+' → '+d.destino]);
     if (item.contrapartida) fatos.push(['Permuta voluntária',item.contrapartida]);
     $('fatos-detalhe').replaceChildren(...fatos.map(([nome,valor]) => {
       const div = criar('div'); div.append(criar('dt','',nome),criar('dd','',valor)); return div;
@@ -173,6 +182,11 @@ $('sair-gestao').addEventListener('click',() => {
 $('form-anuncio').addEventListener('submit',async evento => {
   evento.preventDefault(); $('salvar').disabled = true; $('erro-anuncio').textContent = '';
   const dados = Object.fromEntries(new FormData(evento.target));
+  const detalhes={};
+  for(const [k,v] of Object.entries(dados)) if(k.startsWith('d_')) {if(v.trim()) detalhes[k.slice(2)]=v.trim(); delete dados[k];}
+  if(detalhes.quantidade) detalhes.quantidade=Number(detalhes.quantidade); else delete detalhes.unidade;
+  if(detalhes.disponivel_ate) detalhes.disponivel_ate=new Date(detalhes.disponivel_ate).toISOString().replace('.000Z','Z');
+  dados.detalhes=detalhes;
   dados.municipio_id = Number(dados.municipio_id);
   if (idEdicao) dados.versao = versaoEdicao;
   try {
@@ -227,3 +241,20 @@ $('reenviar-avisos').addEventListener('click',async () => {
 
 carregarMunicipios().catch(erro => mensagem(erro.message,true));
 carregarMural();
+
+// Campos específicos orientam o cadastro; a validação real permanece no Python.
+function ajustarArea() {
+  const categoria=$('categoria').value, oferta=$('tipo').value!=='pedido';
+  const alimento=['alimentos','excedentes','marmitas'].includes(categoria);
+  const ambiente=['reciclaveis','oleo','compostagem','hortas'].includes(categoria);
+  const carona=categoria==='caronas';
+  $('orientacao-area').textContent=$('categoria').selectedOptions[0].dataset.orientacao;
+  $('quantidade-oferta').required=oferta&&(alimento||carona);
+  $('disponivel-ate').required=carona||(alimento&&oferta);
+  $('cuidados').required=oferta&&(alimento||ambiente);
+  document.querySelectorAll('.trajeto').forEach(el=>{el.hidden=!carona;el.querySelector('input').disabled=!carona;el.querySelector('input').required=carona;});
+  if(carona) $('unidade').value='vaga';
+}
+$('categoria').addEventListener('change',ajustarArea);
+$('tipo').addEventListener('change',ajustarArea);
+document.querySelectorAll('[data-area]').forEach(b=>b.addEventListener('click',()=>{$('filtro-categoria').value=b.dataset.area;$('filtros').requestSubmit();$('mural').scrollIntoView({behavior:'smooth'});}));

@@ -13,6 +13,8 @@ from .validacao import validar_anuncio, validar_filtros, ErroValidacao, inteiro
 from .banco import Repositorio, ConflitoEdicao
 from .localidades import Localidades, FonteIndisponivel
 from .notificacoes import despachar
+from .catalogo import catalogo_publico, ALIMENTARES
+from .territorio import Territorio, validar_necessidade, filtros_territorio, localizar_municipio
 
 
 def criar_app(config=None, repositorio=None, fonte=None):
@@ -23,6 +25,7 @@ def criar_app(config=None, repositorio=None, fonte=None):
     repo = repositorio or Repositorio(app.config)
     localidades = fonte or Localidades(app.config)
     logger = criar_logger(app.config['LOG_DIR'])
+    territorio = Territorio(repo)
     app.extensions.update(repositorio=repo, localidades=localidades, auditoria=logger)
     acessos, lock = defaultdict(deque), threading.Lock()
 
@@ -125,7 +128,12 @@ def criar_app(config=None, repositorio=None, fonte=None):
 
     @app.get('/')
     def inicio():
-        return render_template('index.html')
+        return render_template('index.html',catalogo=catalogo_publico())
+
+    @app.get('/api/catalogo')
+    def catalogo():
+        if request.args: raise ErroValidacao('Catálogo não aceita filtros.')
+        return jsonify(catalogo_publico())
 
     @app.get('/api/anuncios')
     def listar_anuncios():
@@ -209,13 +217,80 @@ def criar_app(config=None, repositorio=None, fonte=None):
         if not item:
             return erro('Anúncio não encontrado.',404)
         # Regra transparente: mesma categoria e município, tipo complementar.
-        if item['tipo'] not in ('pedido','doacao') or item['status'] != 'aberto':
+        if item['tipo'] not in ('pedido','doacao') or item['status'] != 'aberto' or item.get('expirado'):
             return jsonify({'items':[], 'criterio':'Conexões são sugeridas entre doações e pedidos abertos.'})
         filtros = {'categoria':item['categoria'], 'municipio_id':item['municipio_id'],
                    'tipo':'doacao' if item['tipo']=='pedido' else 'pedido', 'status':'aberto'}
-        encontrados = repo.listar(filtros)
-        return jsonify({'items':encontrados['items'],
-                        'criterio':'Mesma categoria e município; doação e pedido abertos. Avalie o conteúdo: não é garantia de compatibilidade.'})
+        categorias=sorted(ALIMENTARES) if item['categoria'] in ALIMENTARES else [item['categoria']]
+        itens=[]
+        for categoria in categorias:
+            filtros['categoria']=categoria
+            itens.extend(i for i in repo.listar(filtros)['items'] if not i.get('expirado'))
+        return jsonify({'items':itens[:12],
+                        'criterio':'Mesma cidade; doações e pedidos abertos, com prazo vigente quando informado. Alimentos conectam cestas, excedentes e marmitas. Avalie descrição e condições; não há garantia de atendimento.'})
+
+    @app.get('/api/necessidades')
+    def listar_necessidades():
+        return jsonify(territorio.listar(filtros_territorio(request.args)))
+
+    def ler_necessidade(edicao=False):
+        if request.args: raise ErroValidacao('Esta operação não aceita filtros.')
+        dados=validar_necessidade(request.get_json(),edicao)
+        if not repo.municipio_existe(dados['municipio_id']): raise ErroValidacao('Município não cadastrado.')
+        return dados
+
+    @app.post('/api/necessidades')
+    @protegido
+    def criar_necessidade():
+        ident=territorio.salvar(ler_necessidade())
+        registrar(logger,'necessidade_criar','sucesso',ident)
+        resposta=jsonify({'item':territorio.obter(ident)})
+        resposta.status_code=201; resposta.headers['Location']=f'/api/necessidades/{ident}'
+        return resposta
+
+    @app.get('/api/necessidades/<int:ident>')
+    def obter_necessidade(ident):
+        inteiro(ident,'Identificador')
+        if request.args: raise ErroValidacao('Esta consulta não aceita filtros.')
+        item=territorio.obter(ident)
+        return jsonify({'item':item}) if item else erro('Necessidade não encontrada.',404)
+
+    @app.put('/api/necessidades/<int:ident>')
+    @protegido
+    def editar_necessidade(ident):
+        inteiro(ident,'Identificador')
+        if not territorio.salvar(ler_necessidade(True),ident): return erro('Necessidade não encontrada.',404)
+        registrar(logger,'necessidade_atualizar','sucesso',ident)
+        return jsonify({'item':territorio.obter(ident)})
+
+    @app.delete('/api/necessidades/<int:ident>')
+    @protegido
+    def excluir_necessidade(ident):
+        inteiro(ident,'Identificador')
+        if request.args or request.get_data(): raise ErroValidacao('Exclusão não aceita corpo ou filtros.')
+        if not territorio.excluir(ident): return erro('Necessidade não encontrada.',404)
+        registrar(logger,'necessidade_excluir','sucesso',ident)
+        return '',204
+
+    @app.get('/api/regioes')
+    def regioes():
+        if request.args: raise ErroValidacao('Esta consulta não aceita filtros.')
+        return jsonify({'items':territorio.regioes(),'referencia':'Malhas IBGE; pontos aproximados dos municípios, sem localização de famílias.'})
+
+    @app.post('/api/regioes/<int:ident>/localizar')
+    @protegido
+    def localizar(ident):
+        inteiro(ident,'Município',1000000,9999999)
+        if request.args or request.get_data(): raise ErroValidacao('Localização não aceita corpo ou filtros.')
+        if not repo.municipio_existe(ident): raise ErroValidacao('Município não cadastrado.')
+        try: resultado=localizar_municipio(ident,territorio)
+        except FonteIndisponivel: return erro('Geografia indisponível. A necessidade permanece registrada.',503)
+        registrar(logger,'regiao_localizar',resultado['origem'],ident)
+        return jsonify(resultado)
+
+    @app.get('/api/diagnostico')
+    def diagnostico():
+        return jsonify(territorio.relatorio(filtros_territorio(request.args)))
 
     @app.post('/api/gestao/verificar')
     @protegido

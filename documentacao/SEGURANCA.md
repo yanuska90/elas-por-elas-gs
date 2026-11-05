@@ -38,3 +38,10 @@ O projeto aplica minimização como decisão de arquitetura e usa somente exempl
 ## Validação de segurança
 
 Há testes de chave ausente/inválida, JSON inválido, campos inesperados, origem bloqueada, conflitos, limites, indisponibilidade e validação do protocolo TCP. Consulte `evidencias/resultado_testes.json` e os casos em `testes`. O conjunto é uma verificação funcional dirigida, não uma auditoria completa ou teste de invasão.
+
+
+## Território e novas áreas
+
+As necessidades são municipais, sem coordenadas de famílias. SQL parametrizado e controle de versão também protegem seu CRUD. A coluna JSON de detalhes aceita somente seis chaves previstas, com tipos, tamanhos e prazos validados. Demandas com fonte pública exigem URL HTTPS governamental; a aplicação não baixa a URL indicada, evitando que esse campo dispare requisições arbitrárias. A conferência do conteúdo da fonte é humana.
+
+Dados de demonstração não são agregados com os de fonte pública. Duplicidades ainda podem existir; contagens e prioridades não são estatísticas populacionais. Logs não registram descrições nem a chave. Textos sobre saúde, jurídico e segurança não devem conter relatos pessoais; as verificações por padrão textual não garantem anonimização. Uma implantação real dependeria de moderação e análise jurídica e operacional específica.

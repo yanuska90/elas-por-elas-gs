@@ -11,9 +11,10 @@ CREATE TABLE IF NOT EXISTS anuncios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(100) NOT NULL,
     tipo ENUM('doacao','pedido','permuta','oportunidade') NOT NULL,
-    categoria ENUM('itens','aprendizagem','trabalho') NOT NULL,
+    categoria VARCHAR(32) NOT NULL,
     descricao VARCHAR(800) NOT NULL,
     contrapartida VARCHAR(200) NOT NULL DEFAULT '',
+    detalhes JSON NULL,
     municipio_id INT NOT NULL,
     status ENUM('aberto','reservado','concluido') NOT NULL DEFAULT 'aberto',
     versao INT NOT NULL DEFAULT 1,
@@ -21,6 +22,35 @@ CREATE TABLE IF NOT EXISTS anuncios (
     atualizado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (municipio_id) REFERENCES municipios(id),
     INDEX idx_conexao (municipio_id, categoria, tipo, status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Geografia municipal pública. O ponto é o centro do retângulo da malha,
+-- não uma residência ou a sede oficial do município.
+CREATE TABLE IF NOT EXISTS regioes (
+    municipio_id INT PRIMARY KEY,
+    latitude DOUBLE NOT NULL,
+    longitude DOUBLE NOT NULL,
+    geometria JSON NOT NULL,
+    fonte VARCHAR(250) NOT NULL,
+    consultado_em DATETIME NOT NULL,
+    FOREIGN KEY (municipio_id) REFERENCES municipios(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS necessidades (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    municipio_id INT NOT NULL,
+    setor VARCHAR(24) NOT NULL,
+    titulo VARCHAR(100) NOT NULL,
+    descricao VARCHAR(800) NOT NULL,
+    prioridade INT NOT NULL,
+    natureza ENUM('simulado','dado_publico') NOT NULL,
+    fonte_url VARCHAR(300) NOT NULL DEFAULT '',
+    status ENUM('registrada','em_analise','encaminhada','concluida') NOT NULL,
+    versao INT NOT NULL DEFAULT 1,
+    criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (municipio_id) REFERENCES municipios(id),
+    INDEX idx_territorio (municipio_id,setor,natureza,status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Fila transacional: anúncio e aviso são gravados no mesmo COMMIT.

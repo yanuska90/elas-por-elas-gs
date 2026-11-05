@@ -1,9 +1,11 @@
 """Validação no servidor: o HTML ajuda o uso, mas não é uma barreira de segurança."""
 import re
 import unicodedata
+from datetime import datetime, timezone
+from .catalogo import CATEGORIAS_INFO, ALIMENTARES, AMBIENTAIS
 
 TIPOS = {'doacao', 'pedido', 'permuta', 'oportunidade'}
-CATEGORIAS = {'itens', 'aprendizagem', 'trabalho'}
+CATEGORIAS = set(CATEGORIAS_INFO)
 ESTADOS_ANUNCIO = {'aberto', 'reservado', 'concluido'}
 UFS = set('AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO'.split())
 
@@ -41,7 +43,7 @@ def validar_anuncio(dados, edicao=False):
     obrigatorios = {'titulo', 'tipo', 'categoria', 'descricao', 'municipio_id', 'status'}
     if edicao:
         obrigatorios.add('versao')
-    permitidos = obrigatorios | {'contrapartida'}
+    permitidos = obrigatorios | {'contrapartida','detalhes'}
     if not obrigatorios <= dados.keys() or dados.keys() - permitidos:
         raise ErroValidacao('Campos ausentes ou desconhecidos no anúncio.')
     for campo, escolhas in (('tipo', TIPOS), ('categoria', CATEGORIAS), ('status', ESTADOS_ANUNCIO)):
@@ -59,11 +61,55 @@ def validar_anuncio(dados, edicao=False):
         raise ErroValidacao('Na permuta, descreva o que gostaria de receber em troca.')
     if limpos['tipo'] != 'permuta' and limpos['contrapartida']:
         raise ErroValidacao('Doação e pedido de apoio não exigem contrapartida.')
-    if limpos['tipo'] == 'oportunidade' and limpos['categoria'] == 'itens':
-        raise ErroValidacao('Oportunidades devem ser de aprendizagem ou trabalho.')
+    if limpos['tipo'] == 'permuta' and limpos['categoria'] in {'juridico','saude'}:
+        raise ErroValidacao('Neste protótipo, saúde e jurídico oferecem encaminhamentos, sem permuta profissional.')
+    limpos['detalhes'] = validar_detalhes(dados.get('detalhes',{}), limpos['categoria'], limpos['tipo'], limpos['status'])
     if edicao:
         limpos['versao'] = inteiro(dados['versao'], 'Versão')
     return limpos
+
+
+def validar_detalhes(dados, categoria, tipo, status):
+    """Esquema fechado dentro da coluna JSON; formato variável não significa livre."""
+    campos={'quantidade','unidade','disponivel_ate','cuidados','origem','destino'}
+    if not isinstance(dados,dict) or dados.keys()-campos:
+        raise ErroValidacao('Detalhes do anúncio inválidos.')
+    d={}
+    if 'quantidade' in dados:
+        d['quantidade']=inteiro(dados['quantidade'],'Quantidade',1,100000)
+        unidades={'unidade','kg','litro','porcao','vaga','hora'}
+        if not isinstance(dados.get('unidade'),str) or dados['unidade'] not in unidades:
+            raise ErroValidacao('Escolha a unidade da quantidade.')
+        d['unidade']=dados['unidade']
+    elif 'unidade' in dados:
+        raise ErroValidacao('Informe a quantidade para a unidade escolhida.')
+    for k in ('cuidados','origem','destino'):
+        if k in dados:
+            d[k]=texto(dados[k],k,3,400 if k=='cuidados' else 80)
+    if 'disponivel_ate' in dados:
+        valor=dados['disponivel_ate']
+        if not isinstance(valor,str) or not re.fullmatch(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z',valor):
+            raise ErroValidacao('Informe disponibilidade em data e hora UTC.')
+        try: instante=datetime.strptime(valor,'%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=timezone.utc)
+        except ValueError: raise ErroValidacao('Data de disponibilidade inválida.')
+        if status=='aberto' and instante<=datetime.now(timezone.utc):
+            raise ErroValidacao('Um anúncio aberto precisa de disponibilidade futura.')
+        d['disponivel_ate']=valor
+    if categoria in ALIMENTARES and tipo!='pedido':
+        if not {'quantidade','unidade','disponivel_ate','cuidados'}<=d.keys():
+            raise ErroValidacao('Alimentos: informe quantidade, prazo e condições de conservação/ingredientes.')
+        if d['unidade'] not in {'kg','porcao','unidade','litro'}:
+            raise ErroValidacao('Unidade incompatível com alimentos.')
+    if categoria=='caronas':
+        if not {'origem','destino','disponivel_ate'}<=d.keys():
+            raise ErroValidacao('Carona: informe regiões de origem/destino e data/hora.')
+        if tipo!='pedido' and (d.get('unidade')!='vaga' or d.get('quantidade',0)>8):
+            raise ErroValidacao('Na oferta de carona, informe de 1 a 8 vagas.')
+    elif 'origem' in d or 'destino' in d:
+        raise ErroValidacao('Origem e destino são usados somente em caronas.')
+    if categoria in AMBIENTAIS and tipo!='pedido' and 'cuidados' not in d:
+        raise ErroValidacao('Informe separação, aceitação ou condições de coleta do material.')
+    return d
 
 
 def validar_filtros(args):

@@ -1,0 +1,169 @@
+{
+  "filtros": {
+    "natureza": "simulado"
+  },
+  "gerado_em": "2026-11-05T15:12:56.428349+00:00",
+  "grupos": [
+    {
+      "alta_prioridade": 1,
+      "fontes": [],
+      "municipio": "Diadema",
+      "municipio_id": 3513801,
+      "ods": [
+        2,
+        12
+      ],
+      "pendentes": 1,
+      "proposta_inicial": "Avaliar cozinha solidária e articulação para aproveitamento de alimentos.",
+      "registros": 1,
+      "setor": "alimentacao",
+      "uf": "SP"
+    },
+    {
+      "alta_prioridade": 1,
+      "fontes": [],
+      "municipio": "São Bernardo do Campo",
+      "municipio_id": 3548708,
+      "ods": [
+        4,
+        10
+      ],
+      "pendentes": 1,
+      "proposta_inicial": "Avaliar ampliação de atividades educativas e inclusão digital.",
+      "registros": 1,
+      "setor": "educacao",
+      "uf": "SP"
+    },
+    {
+      "alta_prioridade": 1,
+      "fontes": [],
+      "municipio": "São Paulo",
+      "municipio_id": 3550308,
+      "ods": [
+        6,
+        11
+      ],
+      "pendentes": 1,
+      "proposta_inicial": "Avaliar água, esgoto, drenagem e gestão de resíduos.",
+      "registros": 1,
+      "setor": "saneamento",
+      "uf": "SP"
+    },
+    {
+      "alta_prioridade": 0,
+      "fontes": [],
+      "municipio": "Diadema",
+      "municipio_id": 3513801,
+      "ods": [
+        12,
+        13
+      ],
+      "pendentes": 1,
+      "proposta_inicial": "Avaliar coleta seletiva, óleo e compostagem comunitária.",
+      "registros": 1,
+      "setor": "ambiente",
+      "uf": "SP"
+    },
+    {
+      "alta_prioridade": 0,
+      "fontes": [],
+      "municipio": "Diadema",
+      "municipio_id": 3513801,
+      "ods": [
+        10,
+        11
+      ],
+      "pendentes": 1,
+      "proposta_inicial": "Avaliar acessibilidade, cobertura e horários de transporte.",
+      "registros": 1,
+      "setor": "transporte",
+      "uf": "SP"
+    },
+    {
+      "alta_prioridade": 0,
+      "fontes": [],
+      "municipio": "São Bernardo do Campo",
+      "municipio_id": 3548708,
+      "ods": [
+        8,
+        10
+      ],
+      "pendentes": 1,
+      "proposta_inicial": "Avaliar formação, orientação profissional e oportunidades.",
+      "registros": 1,
+      "setor": "trabalho",
+      "uf": "SP"
+    },
+    {
+      "alta_prioridade": 0,
+      "fontes": [],
+      "municipio": "São Bernardo do Campo",
+      "municipio_id": 3548708,
+      "ods": [
+        3,
+        10
+      ],
+      "pendentes": 1,
+      "proposta_inicial": "Avaliar acolhimento e acesso aos serviços de saúde.",
+      "registros": 1,
+      "setor": "saude",
+      "uf": "SP"
+    },
+    {
+      "alta_prioridade": 0,
+      "fontes": [],
+      "municipio": "São Bernardo do Campo",
+      "municipio_id": 3548708,
+      "ods": [
+        10,
+        11
+      ],
+      "pendentes": 1,
+      "proposta_inicial": "Avaliar acesso a programas habitacionais e orientação pública.",
+      "registros": 1,
+      "setor": "moradia",
+      "uf": "SP"
+    },
+    {
+      "alta_prioridade": 0,
+      "fontes": [],
+      "municipio": "São Paulo",
+      "municipio_id": 3550308,
+      "ods": [
+        3,
+        11
+      ],
+      "pendentes": 1,
+      "proposta_inicial": "Avaliar atividades culturais e espaços de convivência.",
+      "registros": 1,
+      "setor": "lazer",
+      "uf": "SP"
+    },
+    {
+      "alta_prioridade": 0,
+      "fontes": [],
+      "municipio": "São Paulo",
+      "municipio_id": 3550308,
+      "ods": [
+        11,
+        16
+      ],
+      "pendentes": 1,
+      "proposta_inicial": "Avaliar iluminação, espaços públicos e prevenção comunitária.",
+      "registros": 1,
+      "setor": "seguranca",
+      "uf": "SP"
+    }
+  ],
+  "metodologia": "Contagem de registros cadastrados; prioridade de 1 a 3 atribuída pela gestão. Não representa número de pessoas, pesquisa amostral ou carência comprovada. Fontes públicas cadastradas não são verificadas automaticamente.",
+  "natureza": "simulado",
+  "proximos_passos": [
+    "Validar evidências e abrangência territorial com a comunidade.",
+    "Consultar dados oficiais e verificar duplicidades.",
+    "Definir órgão competente, orçamento e responsáveis.",
+    "Revisar a minuta e protocolar no canal oficial apropriado."
+  ],
+  "registros_considerados": 10,
+  "truncado": false,
+  "uso": "Minuta para revisão humana antes de solicitar projetos públicos. Não é protocolo nem envio ao governo."
+}

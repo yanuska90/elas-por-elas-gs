@@ -6,7 +6,7 @@ em separado. Os fragmentos dinâmicos abaixo são constantes internas permitidas
 import json
 import uuid
 from contextlib import contextmanager
-from datetime import datetime
+from datetime import datetime, timezone
 import mysql.connector
 from .configuracao import RAIZ
 
@@ -43,6 +43,14 @@ class Repositorio:
                 for comando in comandos.split(';'):
                     if comando.strip():
                         cur.execute(comando)
+                # Migração aditiva para instalações da primeira versão. Sem DROP
+                # e sem recriar volumes: os anúncios existentes são preservados.
+                cur.execute("SELECT DATA_TYPE FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=%s AND TABLE_NAME='anuncios' AND COLUMN_NAME='categoria'", (self.config['DB_NAME'],))
+                if cur.fetchone()[0]=='enum':
+                    cur.execute('ALTER TABLE anuncios MODIFY categoria VARCHAR(32) NOT NULL')
+                cur.execute("SELECT 1 FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=%s AND TABLE_NAME='anuncios' AND COLUMN_NAME='detalhes'",(self.config['DB_NAME'],))
+                if not cur.fetchone():
+                    cur.execute('ALTER TABLE anuncios ADD COLUMN detalhes JSON NULL')
             c.commit()
         snapshot = json.loads(self.config['SNAPSHOT'].read_text(encoding='utf-8'))
         self.salvar_municipios(snapshot['items'])
@@ -72,8 +80,13 @@ class Repositorio:
     def serializar(item):
         if not item:
             return None
-        return {k: v.isoformat() + 'Z' if isinstance(v, datetime) else v
-                for k, v in item.items()}
+        resultado = {k: v.isoformat() + 'Z' if isinstance(v, datetime) else v for k,v in item.items()}
+        if 'detalhes' in resultado:
+            d=resultado['detalhes'] or '{}'
+            resultado['detalhes']=json.loads(d) if isinstance(d,str) else d
+            prazo=resultado['detalhes'].get('disponivel_ate')
+            resultado['expirado']=bool(prazo and prazo<=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))
+        return resultado
 
     def listar(self, filtros):
         condicoes, valores = [], []
@@ -116,10 +129,10 @@ class Repositorio:
         with self.conexao() as c:
             with c.cursor() as cur:
                 cur.execute('INSERT INTO anuncios '
-                            '(titulo,tipo,categoria,descricao,contrapartida,municipio_id,status) '
-                            'VALUES (%s,%s,%s,%s,%s,%s,%s)',
+                            '(titulo,tipo,categoria,descricao,contrapartida,municipio_id,status,detalhes) '
+                            'VALUES (%s,%s,%s,%s,%s,%s,%s,%s)',
                             tuple(dados[k] for k in ('titulo','tipo','categoria','descricao',
-                                                    'contrapartida','municipio_id','status')))
+                                                    'contrapartida','municipio_id','status'))+(json.dumps(dados.get('detalhes',{}),ensure_ascii=False),))
                 anuncio_id = cur.lastrowid
                 aviso_id = self.enfileirar(cur, anuncio_id, 'criar')
             c.commit()  # Somente após o COMMIT tentamos a comunicação externa.
@@ -135,10 +148,10 @@ class Repositorio:
                 if atual[0] != dados['versao']:
                     raise ConflitoEdicao()
                 cur.execute('UPDATE anuncios SET titulo=%s,tipo=%s,categoria=%s,descricao=%s,'
-                            'contrapartida=%s,municipio_id=%s,status=%s,versao=versao+1,'
+                            'contrapartida=%s,municipio_id=%s,status=%s,detalhes=%s,versao=versao+1,'
                             'atualizado_em=UTC_TIMESTAMP() WHERE id=%s',
                             tuple(dados[k] for k in ('titulo','tipo','categoria','descricao',
-                                                    'contrapartida','municipio_id','status')) + (anuncio_id,))
+                                                    'contrapartida','municipio_id','status')) + (json.dumps(dados.get('detalhes',{}),ensure_ascii=False),anuncio_id))
                 aviso_id = self.enfileirar(cur, anuncio_id, 'atualizar')
             c.commit()
         return aviso_id

@@ -1,18 +1,89 @@
 {
   "data": "2026-11-05",
-  "ambiente": "Navegador local, Windows, aplicação em 127.0.0.1:5055",
-  "natureza": "Verificação manual assistida por automação de interface; não é pesquisa com usuárias",
+  "ambiente": "Windows; navegador local; API em 127.0.0.1:5056; MySQL nativo e TCP locais",
+  "natureza": "Verificação por automação de interface; não é pesquisa com usuárias",
   "resultados": [
-    {"caso": "Página inicial com oito exemplos fictícios", "resultado": "aprovado", "print": "01_pagina_inicial.jpg"},
-    {"caso": "Chave incorreta recusada", "resultado": "aprovado", "print": "02_acesso_protegido.jpg"},
-    {"caso": "Preenchimento de formulário e criação de exemplo descartável", "resultado": "aprovado", "print": "03_formulario_cadastro.jpg"},
-    {"caso": "Cadastro visível e conexão complementar", "resultado": "aprovado", "print": "04_cadastro_e_conexoes.jpg"},
-    {"caso": "Alteração para concluído", "resultado": "aprovado", "print": "05_anuncio_atualizado.jpg"},
-    {"caso": "Exclusão do exemplo descartável", "resultado": "aprovado", "print": "06_exclusao_confirmada.jpg"},
-    {"caso": "Consulta de 645 municípios de SP", "resultado": "aprovado", "print": "07_consulta_ibge.jpg"},
-    {"caso": "Repetição de consulta com origem cache", "resultado": "aprovado", "print": "08_cache_local.jpg"},
-    {"caso": "Largura móvel de 390 px sem transbordamento horizontal", "resultado": "aprovado", "print": "09_tela_celular.jpg"}
+    {
+      "caso": "Página inicial com identificação da aluna e 25 anúncios fictícios",
+      "resultado": "aprovado",
+      "print": "01_pagina_inicial.jpg"
+    },
+    {
+      "caso": "Acesso à gestão protegido por chave",
+      "resultado": "aprovado",
+      "print": "02_acesso_protegido.jpg"
+    },
+    {
+      "caso": "Preenchimento do cadastro de anúncio descartável",
+      "resultado": "aprovado",
+      "print": "03_formulario_cadastro.jpg"
+    },
+    {
+      "caso": "Cadastro visível e sugestão complementar",
+      "resultado": "aprovado",
+      "print": "04_cadastro_e_conexoes.jpg"
+    },
+    {
+      "caso": "Edição do anúncio para Concluído",
+      "resultado": "aprovado",
+      "print": "05_anuncio_atualizado.jpg"
+    },
+    {
+      "caso": "Exclusão do anúncio descartável",
+      "resultado": "aprovado",
+      "print": "06_exclusao_confirmada.jpg"
+    },
+    {
+      "caso": "Consulta de 645 municípios de SP e download do JSON",
+      "resultado": "aprovado",
+      "print": "07_consulta_ibge.jpg"
+    },
+    {
+      "caso": "Consulta com origem cache",
+      "resultado": "aprovado",
+      "print": "08_cache_local.jpg"
+    },
+    {
+      "caso": "Largura móvel 390 px sem transbordamento horizontal (documento 375 px)",
+      "resultado": "aprovado",
+      "print": "09_tela_celular.jpg"
+    },
+    {
+      "caso": "Quinze atalhos de áreas sociais e ambientais",
+      "resultado": "aprovado",
+      "print": "10_areas_sociais.jpg"
+    },
+    {
+      "caso": "Mapa municipal com dez necessidades fictícias em três municípios",
+      "resultado": "aprovado",
+      "print": "11_mapa_necessidades.jpg"
+    },
+    {
+      "caso": "Cadastro de necessidade descartável de saneamento",
+      "resultado": "aprovado",
+      "print": "12_cadastro_necessidade.jpg"
+    },
+    {
+      "caso": "Edição para Em análise; exclusão posterior restaurou dez registros",
+      "resultado": "aprovado",
+      "print": "13_necessidade_atualizada.jpg"
+    },
+    {
+      "caso": "Base pública vazia separada dos dez exemplos simulados",
+      "resultado": "aprovado",
+      "print": "14_base_publica_separada.jpg"
+    },
+    {
+      "caso": "Marmitas: quantidade, prazo, condições e sugestão de apoio alimentar",
+      "resultado": "aprovado",
+      "print": "15_alimentos_e_conexoes.jpg"
+    },
+    {
+      "caso": "Prévia da minuta com identificação, dez setores e aviso de simulação",
+      "resultado": "aprovado",
+      "print": "16_minuta_publica.jpg"
+    }
   ],
   "erros_console_observados_ao_final": 0,
-  "limites": "Não cobre todos os navegadores, acessibilidade integral ou carga concorrente. Não comprova impacto social."
+  "limites": "Não cobre todos os navegadores, acessibilidade integral ou carga. A prévia da minuta foi conferida; o salvamento pelo diálogo de impressão fica descrito para execução manual. Não comprova impacto social."
 }

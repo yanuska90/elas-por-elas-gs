@@ -1,0 +1,28 @@
+<!-- Diagnóstico municipal: dados estruturados, sem endereço de famílias. -->
+<section class="container diagnostico" id="diagnostico" aria-labelledby="titulo-diagnostico">
+  <p class="sobretitulo">DO APOIO IMEDIATO AO PLANEJAMENTO PÚBLICO</p>
+  <div class="titulo-secao"><div><h2 id="titulo-diagnostico">As necessidades têm território.</h2><p>Mapeie demandas e prepare propostas de ampliação de projetos públicos.</p></div><button class="botao principal" id="nova-necessidade">Registrar necessidade</button></div>
+  <form id="filtros-territorio" class="filtros">
+    <div class="campo"><label for="natureza-territorio">Base consultada</label><select id="natureza-territorio" name="natureza"><option value="simulado">Demonstração fictícia</option><option value="dado_publico">Registros com fonte pública</option></select></div>
+    <div class="campo"><label for="filtro-territorio">Município</label><select id="filtro-territorio" name="municipio_id"><option value="">Todos os municípios</option></select></div>
+    <div class="campo"><label for="setor-territorio">Área de necessidade</label><select id="setor-territorio" name="setor"><option value="">Todas as áreas</option>{% for s in catalogo.setores %}<option value="{{s.id}}">{{s.nome}}</option>{% endfor %}</select></div>
+    <button class="botao contorno" type="submit">Atualizar diagnóstico</button>
+  </form>
+  <p id="resumo-territorio" role="status"></p>
+  <div class="territorio-grade"><div class="mapa-painel"><h3>Mapa municipal</h3><svg id="mapa-territorio" viewBox="0 0 640 390" role="img" aria-label="Mapa das regiões municipais cadastradas"><title>Limites municipais do IBGE</title></svg><p class="pequeno">Limites simplificados do IBGE. Pontos aproximados do município; não indicam residências. Cores mostram presença de registros no recorte; quantidades estão na legenda, sem estimar população ou risco.</p><button id="localizar-regiao" class="texto-botao">Carregar geografia do município selecionado</button><p id="resultado-geografia" role="status"></p><ul id="legenda-mapa" class="legenda-mapa"></ul></div>
+  <div class="prioridades"><h3>Áreas para discussão pública</h3><div id="grupos-territorio"></div><p class="pequeno">Prioridade atribuída pela gestão. Cadastros podem se repetir e não constituem pesquisa representativa. Fontes cadastradas exigem conferência humana.</p><div class="acoes"><button id="exportar-diagnostico" class="botao principal">Baixar relatório JSON</button><button id="imprimir-diagnostico" class="botao contorno">Imprimir minuta / PDF</button></div></div></div>
+  <h3>Necessidades registradas</h3><div id="lista-necessidades" class="grade-necessidades"></div>
+  <div id="minuta-publica" class="minuta-publica" hidden></div>
+</section>
+<dialog id="dialog-necessidade"><div class="modal"><button class="fechar" type="button" data-fechar="dialog-necessidade" aria-label="Fechar">×</button><h2 id="titulo-necessidade-form">Registrar necessidade</h2><p>Descreva a demanda do município de forma geral, sem identificar pessoas ou endereços. Exemplos e evidências públicas ficam em bases separadas.</p>
+<form id="form-necessidade"><div class="form-grade">
+<div class="campo inteiro"><label for="necessidade-titulo">Título</label><input id="necessidade-titulo" name="titulo" minlength="5" maxlength="100" required></div>
+<div class="campo"><label for="municipio-necessidade">Município</label><select id="municipio-necessidade" name="municipio_id" required><option value="">Selecione</option></select></div>
+<div class="campo"><label for="necessidade-setor">Área</label><select id="necessidade-setor" name="setor">{% for s in catalogo.setores %}<option value="{{s.id}}">{{s.nome}}</option>{% endfor %}</select></div>
+<div class="campo inteiro"><label for="necessidade-descricao">Problema e evidência (sem dados pessoais)</label><textarea id="necessidade-descricao" name="descricao" minlength="15" maxlength="800" rows="4" required></textarea></div>
+<div class="campo"><label for="necessidade-prioridade">Prioridade atribuída pela gestão</label><select id="necessidade-prioridade" name="prioridade"><option value="1">1 · Planejamento</option><option value="2">2 · Atenção</option><option value="3">3 · Prioritária</option></select></div>
+<div class="campo"><label for="necessidade-status">Situação do registro</label><select id="necessidade-status" name="status"><option value="registrada">Registrada</option><option value="em_analise">Em análise</option><option value="encaminhada">Encaminhada</option><option value="concluida">Concluída</option></select></div>
+<div class="campo"><label for="necessidade-natureza">Natureza da evidência</label><select id="necessidade-natureza" name="natureza"><option value="simulado">Exemplo fictício</option><option value="dado_publico">Dado público documentado</option></select></div>
+<div class="campo"><label for="necessidade-fonte">Fonte governamental (HTTPS)</label><input id="necessidade-fonte" name="fonte_url" type="url" maxlength="300" placeholder="https://www.ibge.gov.br/..." disabled></div>
+</div><p id="erro-necessidade" role="alert" class="erro"></p><button class="botao principal" id="salvar-necessidade" type="submit">Salvar necessidade</button></form></div></dialog>
+<dialog id="dialog-excluir-necessidade"><div class="modal"><h2>Excluir esta necessidade?</h2><p>Remova somente registros incorretos ou exemplos descartáveis.</p><p class="erro" id="erro-excluir-necessidade"></p><div class="acoes"><button class="botao contorno" data-fechar="dialog-excluir-necessidade">Cancelar</button><button class="botao perigo" id="confirmar-exclusao-necessidade">Confirmar exclusão</button></div></div></dialog>

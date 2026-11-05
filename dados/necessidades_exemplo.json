@@ -1,0 +1,102 @@
+[
+  {
+    "municipio_id": 3548708,
+    "setor": "educacao",
+    "titulo": "Ampliação de atividades educativas",
+    "descricao": "SIMULAÇÃO: demanda criada para testar o diagnóstico territorial. Não constitui evidência de carência real neste município. Uma proposta exigiria dados oficiais e escuta da comunidade.",
+    "prioridade": 3,
+    "natureza": "simulado",
+    "fonte_url": "",
+    "status": "registrada"
+  },
+  {
+    "municipio_id": 3550308,
+    "setor": "seguranca",
+    "titulo": "Melhoria de iluminação e prevenção comunitária",
+    "descricao": "SIMULAÇÃO: demanda criada para testar o diagnóstico territorial. Não constitui evidência de carência real neste município. Uma proposta exigiria dados oficiais e escuta da comunidade.",
+    "prioridade": 2,
+    "natureza": "simulado",
+    "fonte_url": "",
+    "status": "registrada"
+  },
+  {
+    "municipio_id": 3513801,
+    "setor": "alimentacao",
+    "titulo": "Expansão de cozinhas e apoio alimentar",
+    "descricao": "SIMULAÇÃO: demanda criada para testar o diagnóstico territorial. Não constitui evidência de carência real neste município. Uma proposta exigiria dados oficiais e escuta da comunidade.",
+    "prioridade": 3,
+    "natureza": "simulado",
+    "fonte_url": "",
+    "status": "registrada"
+  },
+  {
+    "municipio_id": 3548708,
+    "setor": "moradia",
+    "titulo": "Estudo para apoio habitacional",
+    "descricao": "SIMULAÇÃO: demanda criada para testar o diagnóstico territorial. Não constitui evidência de carência real neste município. Uma proposta exigiria dados oficiais e escuta da comunidade.",
+    "prioridade": 2,
+    "natureza": "simulado",
+    "fonte_url": "",
+    "status": "registrada"
+  },
+  {
+    "municipio_id": 3550308,
+    "setor": "saneamento",
+    "titulo": "Avaliação de água, esgoto e drenagem",
+    "descricao": "SIMULAÇÃO: demanda criada para testar o diagnóstico territorial. Não constitui evidência de carência real neste município. Uma proposta exigiria dados oficiais e escuta da comunidade.",
+    "prioridade": 3,
+    "natureza": "simulado",
+    "fonte_url": "",
+    "status": "registrada"
+  },
+  {
+    "municipio_id": 3513801,
+    "setor": "transporte",
+    "titulo": "Ampliação de acesso ao transporte",
+    "descricao": "SIMULAÇÃO: demanda criada para testar o diagnóstico territorial. Não constitui evidência de carência real neste município. Uma proposta exigiria dados oficiais e escuta da comunidade.",
+    "prioridade": 2,
+    "natureza": "simulado",
+    "fonte_url": "",
+    "status": "registrada"
+  },
+  {
+    "municipio_id": 3548708,
+    "setor": "saude",
+    "titulo": "Acesso a informação e serviços de saúde",
+    "descricao": "SIMULAÇÃO: demanda criada para testar o diagnóstico territorial. Não constitui evidência de carência real neste município. Uma proposta exigiria dados oficiais e escuta da comunidade.",
+    "prioridade": 2,
+    "natureza": "simulado",
+    "fonte_url": "",
+    "status": "registrada"
+  },
+  {
+    "municipio_id": 3550308,
+    "setor": "lazer",
+    "titulo": "Espaços de cultura, esporte e lazer",
+    "descricao": "SIMULAÇÃO: demanda criada para testar o diagnóstico territorial. Não constitui evidência de carência real neste município. Uma proposta exigiria dados oficiais e escuta da comunidade.",
+    "prioridade": 2,
+    "natureza": "simulado",
+    "fonte_url": "",
+    "status": "registrada"
+  },
+  {
+    "municipio_id": 3513801,
+    "setor": "ambiente",
+    "titulo": "Coleta seletiva e compostagem comunitária",
+    "descricao": "SIMULAÇÃO: demanda criada para testar o diagnóstico territorial. Não constitui evidência de carência real neste município. Uma proposta exigiria dados oficiais e escuta da comunidade.",
+    "prioridade": 2,
+    "natureza": "simulado",
+    "fonte_url": "",
+    "status": "registrada"
+  },
+  {
+    "municipio_id": 3548708,
+    "setor": "trabalho",
+    "titulo": "Qualificação e acesso a oportunidades",
+    "descricao": "SIMULAÇÃO: demanda criada para testar o diagnóstico territorial. Não constitui evidência de carência real neste município. Uma proposta exigiria dados oficiais e escuta da comunidade.",
+    "prioridade": 2,
+    "natureza": "simulado",
+    "fonte_url": "",
+    "status": "registrada"
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "necessidades": {
+    "POST": 201,
+    "Location": "/api/necessidades/12",
+    "GET": 200,
+    "PUT": 200,
+    "DELETE": 204,
+    "GET_apos_excluir": 404
+  },
+  "anuncios": {
+    "POST": 201,
+    "Location": "/api/anuncios/29",
+    "GET": 200,
+    "PUT": 200,
+    "DELETE": 204,
+    "GET_apos_excluir": 404
+  },
+  "executado_em": "2026-11-05T15:12:56.402089+00:00",
+  "dados": "Fictícios e descartáveis; removidos após teste.",
+  "autenticacao": 401,
+  "publicos_separados": true
+}

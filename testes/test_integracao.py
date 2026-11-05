@@ -45,6 +45,7 @@ class TestIntegracao(unittest.TestCase):
         with self.repo.conexao() as c:
             with c.cursor() as cur:
                 cur.execute('DELETE FROM notificacoes'); cur.execute('DELETE FROM anuncios')
+                cur.execute('DELETE FROM necessidades'); cur.execute('DELETE FROM regioes')
             c.commit()
         self.app=criar_app(self.config,self.repo)
         self.client=self.app.test_client()
@@ -54,6 +55,46 @@ class TestIntegracao(unittest.TestCase):
         r=self.client.post('/api/anuncios',json=exemplo(**mudancas),headers=self.auth)
         self.assertEqual(r.status_code,201,r.get_json())
         return r.get_json()['item']
+
+    def test_territorio_crud_concorrencia_e_diagnostico(self):
+        from testes.test_territorio import necessidade
+        r=self.client.post('/api/necessidades',json=necessidade(),headers=self.auth)
+        self.assertEqual(r.status_code,201,r.json);ident=r.json['item']['id'];url=f'/api/necessidades/{ident}'
+        self.assertEqual(self.client.get(url).status_code,200)
+        self.assertEqual(self.client.put(url,json=necessidade(versao=1,status='em_analise'),headers=self.auth).status_code,200)
+        self.assertEqual(self.client.put(url,json=necessidade(versao=1),headers=self.auth).status_code,409)
+        d=self.client.get('/api/diagnostico').json
+        self.assertEqual(d['registros_considerados'],1);self.assertEqual(d['grupos'][0]['alta_prioridade'],1)
+        self.assertEqual(self.client.get('/api/diagnostico?natureza=dado_publico').json['registros_considerados'],0)
+        self.assertEqual(self.client.delete(url,headers=self.auth).status_code,204)
+        self.assertEqual(self.client.get(url).status_code,404)
+
+    def test_territorio_autenticacao_e_fonte_invalida(self):
+        from testes.test_territorio import necessidade
+        self.assertEqual(self.client.post('/api/necessidades',json=necessidade()).status_code,401)
+        self.assertEqual(self.client.post('/api/necessidades',json=necessidade(natureza='dado_publico',fonte_url='https://ibge.gov.br:abc/'),headers=self.auth).status_code,400)
+        self.assertEqual(self.client.get('/api/necessidades?setor=desconhecido').status_code,400)
+
+    def test_alimentos_conectam_sem_incluir_prazo_encerrado(self):
+        from testes.test_territorio import alimento
+        pedido=self.criar(tipo='pedido',categoria='alimentos')
+        doacao=self.criar(categoria='marmitas',detalhes=alimento())
+        self.criar(categoria='excedentes',status='concluido',detalhes=alimento(disponivel_ate='2020-01-01T00:00:00Z'))
+        self.assertEqual([i['id'] for i in self.client.get('/api/conexoes/'+str(pedido['id'])).json['items']],[doacao['id']])
+
+    def test_geografia_cache_real_mysql_e_falha_nao_perde_demanda(self):
+        from elas.territorio import Territorio,extrair_geografia,FonteIndisponivel
+        from testes.test_territorio import necessidade
+        territorio=Territorio(self.repo)
+        d=extrair_geografia({'features':[{'geometry':{'type':'Polygon','coordinates':[[[-47,-24],[-46,-24],[-46,-23],[-47,-24]]]}}]},3548708)
+        territorio.salvar_regiao(3548708,d)
+        self.assertEqual(self.client.get('/api/regioes').json['items'][0]['municipio_id'],3548708)
+        r=self.client.post('/api/regioes/3548708/localizar',headers=self.auth)
+        self.assertEqual(r.status_code,200);self.assertEqual(r.json['origem'],'cache_mysql')
+        self.client.post('/api/necessidades',json=necessidade(),headers=self.auth)
+        with patch('elas.aplicacao.localizar_municipio',side_effect=FonteIndisponivel('interno')):
+            self.assertEqual(self.client.post('/api/regioes/3548708/localizar',headers=self.auth).status_code,503)
+        self.assertEqual(self.client.get('/api/diagnostico').json['registros_considerados'],1)
 
     def test_crud_completo_mysql_e_status(self):
         item=self.criar(); ident=item['id']

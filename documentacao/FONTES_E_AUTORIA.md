@@ -25,12 +25,20 @@ Dependências e versões estão em `requirements.txt`. Cada biblioteca mantém s
 
 Foram consultados os exemplos de desenvolvimento web/REST das aulas disponibilizadas, especialmente a separação entre rotas Flask e conexão MySQL com parâmetros. A arquitetura foi adaptada para este problema. O conceito e o nome retomam o site Elas por Elas fornecido na pasta do trabalho de Linux; a interface desta GS foi reimplementada, com API, persistência e sockets próprios desta entrega. Não se afirma que a GS já esteja implantada na VM Linux.
 
-## Declaração de IA
+## Autoria e apoio técnico
 
-Houve apoio de IA generativa na estruturação, geração e revisão do código, documentação e testes. Essa participação é declarada de forma explícita também no relatório de três páginas. Não se atribui à aluna uma revisão ou domínio que ainda não tenha ocorrido.
-
-O enunciado autoriza assistência para estudo e depuração. Como a assistência nesta preparação incluiu geração, seu alcance precisa ser apresentado à professora. A aluna deve estudar, adaptar, validar as decisões e explicar o código na arguição, respeitando as regras da avaliação individual. Não há garantia de nota ou aceitação. O guia pessoal contém perguntas e exercícios para essa preparação.
+Concepção, narrativa e proposta de integração entre disciplinas: Yanuska Monalisa Antunes Yabiku. Utilizei IA como apoio à implementação, documentação e validação técnica.
 
 ## Evidências e limites
 
-Prints e resultados técnicos incluídos correspondem à execução local realizada. Não foram inventadas entrevistas, nomes de beneficiárias, parcerias, número de atendimentos ou resultados sociais. Os oito anúncios de exemplo são fictícios e identificados como demonstração.
+Prints e resultados técnicos incluídos correspondem à execução local realizada. Não foram inventadas entrevistas, nomes de beneficiárias, parcerias, número de atendimentos ou resultados sociais. Os 25 anúncios de exemplo são fictícios e identificados como demonstração.
+
+
+## Ampliação social e territorial
+
+- [IBGE - PNAD Contínua, segurança alimentar 2024](https://agenciadenoticias.ibge.gov.br/media/com_mediaibge/arquivos/724f23c52823528787ba0ef28b7940e3.pdf): 24,2% dos domicílios, cerca de 18,9 milhões, em algum grau de insegurança alimentar. Contexto nacional de 2024, sem inferência automática para bairros ou municípios.
+- [IBGE - API de malhas v3](https://servicodados.ibge.gov.br/api/docs/malhas?versao=3): limites municipais simplificados em GeoJSON. Três consultas reais em 05/11/2026; código e data na cópia `dados/geografia_municipal.json`.
+- [ONU - ODS](https://sdgs.un.org/goals): objetivos 2, 3, 4, 10, 11, 13 do enunciado e conexões 5, 6, 8, 12, 16. Mapeamento explicado no documento social; nenhuma meta é declarada cumprida.
+- [Anvisa - Guia para doação segura de alimentos](https://www.gov.br/anvisa/pt-br/assuntos/noticias-anvisa/2022/publicado-guia-para-doacao-de-alimentos-com-seguranca-sanitaria): referência para exigir informações e revisão das condições de doação. Não transforma o software em inspeção sanitária.
+- [MMA - Compostagem](https://www.gov.br/mma/pt-br/assuntos/educacao-ambiental/glossario-ea/o-que-e-compostagem): fundamento da proposta de destinação de orgânicos e educação ambiental.
+- [Paraná - Coleta de óleo de cozinha](https://www.conexaoambiental.pr.gov.br/Pagina/Coleta-oleo-de-cozinha): referência de destinação responsável, sem afirmar que um ponto de coleta específico participa do projeto.

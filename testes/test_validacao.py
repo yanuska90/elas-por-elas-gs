@@ -32,7 +32,7 @@ class TestValidacao(unittest.TestCase):
         with self.assertRaises(ErroValidacao): validar_anuncio(exemplo(municipio_id=True))
 
     def test_rejeita_tipo_invalido_e_campo_muito_longo(self):
-        for dados in (exemplo(tipo=[]),exemplo(categoria='saude'),exemplo(titulo='x'*101)):
+        for dados in (exemplo(tipo=[]),exemplo(categoria='inexistente'),exemplo(titulo='x'*101)):
             with self.assertRaises(ErroValidacao): validar_anuncio(dados)
 
     def test_permuta_exige_contrapartida(self):

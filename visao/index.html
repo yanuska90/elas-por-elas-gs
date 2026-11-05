@@ -8,20 +8,22 @@
   <link rel="icon" href="{{ url_for('static',filename='simbolo.svg') }}" type="image/svg+xml">
   <link rel="stylesheet" href="{{ url_for('static',filename='estilo.css') }}">
   <script src="{{ url_for('static',filename='aplicacao.js') }}" defer></script>
+  <script src="{{ url_for('static',filename='territorio.js') }}" defer></script>
 </head>
 <body>
   <a href="#mural" class="skip">Ir para o mural</a>
-  <div class="faixa">GLOBAL SOLUTION · CITIZENTECH <span>Demonstração com dados fictícios</span></div>
+  <div class="faixa">GLOBAL SOLUTION · CITIZENTECH <span>Protótipo acadêmico · Dados fictícios e abertos</span></div>
+  <section class="identidade-aluna container" aria-label="Identificação acadêmica"><div><span>PROJETO ELAS POR ELAS</span><strong>Yanuska Monalisa Antunes Yabiku</strong></div><p><b>RM 571686 · 1TDCA-2026</b><br>GS · Coding for Security · Prof.ª Leide</p></section>
   <header class="container cabecalho">
     <a href="#" class="marca"><img src="{{ url_for('static',filename='simbolo.svg') }}" alt="" width="42" height="42"><span>elas <em>por</em> elas<small>REDE DE APOIO E OPORTUNIDADES</small></span></a>
-    <nav aria-label="Navegação principal"><a href="#mural">O mural</a><a href="#como-funciona">Como funciona</a><a href="#projeto">O projeto</a></nav>
+    <nav aria-label="Navegação principal"><a href="#mural">O mural</a><a href="#areas">Áreas de apoio</a><a href="#diagnostico">Mapa de necessidades</a><a href="#projeto">O projeto</a></nav>
     <button id="abrir-gestao" class="botao contorno">Acesso à gestão</button>
   </header>
   <main>
     <section class="container hero" aria-labelledby="titulo-principal">
       <div><p class="sobretitulo">CONEXÕES QUE COMEÇAM NA COMUNIDADE</p>
-        <h1 id="titulo-principal">Uma rede de apoio.<br><em>Muitas possibilidades.</em></h1>
-        <p class="introducao">Aproximar o que alguém pode oferecer daquilo que outra mulher precisa. Doações, conhecimentos e oportunidades para construir novos caminhos, juntas.</p>
+        <h1 id="titulo-principal">Elas por Elas.<br><em>Cuidado que transforma.</em></h1>
+        <p class="introducao">Alimentação, educação, cuidado, trabalho e mobilidade. Uma rede para compartilhar recursos, reduzir desperdícios e tornar as necessidades do território visíveis.</p>
         <div class="acoes"><a class="botao principal" href="#mural">Explorar o mural <span aria-hidden="true">↗</span></a><button class="botao contorno" id="novo-anuncio">Criar um anúncio <span aria-hidden="true">+</span></button></div>
         <p class="nota-hero">Apoio para mulheres e mães solo. Pedir ajuda não exige oferecer algo em troca.</p>
       </div>
@@ -29,18 +31,19 @@
         <div class="circulos" aria-hidden="true"><span>E</span><span>+</span><span>E</span></div>
         <p class="painel-numero">Uma comunidade,<br><em>muitas formas de cuidar.</em></p>
         <div class="pilares"><span>01 &nbsp; Compartilhar recursos</span><span>02 &nbsp; Trocar conhecimentos</span><span>03 &nbsp; Ampliar oportunidades</span></div>
-        <div class="selo">Conexões locais · ODS 4 e 10</div>
+        <div class="selo">Apoio social · Economia circular · Diagnóstico territorial</div>
       </aside>
     </section>
     <section class="container indicadores" aria-label="Registros da demonstração">
       <div><strong id="total-anuncios">—</strong><span>anúncios no mural</span></div><div><strong id="total-pedidos">—</strong><span>pedidos de apoio</span></div><div><strong id="total-concluidos">—</strong><span>cadastros concluídos</span></div><p>Contagem de registros fictícios.<br>Não representa impacto social medido.</p>
     </section>
+    <section id="areas" class="container areas-apoio"><p class="sobretitulo">UMA REDE, DIFERENTES NECESSIDADES</p><h2>Encontre sua área de apoio.</h2><p>Escolha uma frente para filtrar o mural. Doações e pedidos são livres de contrapartida; permutas são voluntárias.</p><div class="grade-areas">{% for c in catalogo.categorias %}<button type="button" class="area-atalho" data-area="{{ c.id }}"><strong>{{ c.nome }}</strong><span>ODS {{ c.ods|join(' · ') }}</span></button>{% endfor %}</div></section>
     <section id="mural" class="container mural" aria-labelledby="titulo-mural">
-      <div class="titulo-secao"><div><p class="sobretitulo">DOAÇÕES · PEDIDOS · PERMUTAS · OPORTUNIDADES</p><h2 id="titulo-mural">Encontre uma conexão.</h2></div><p>Um livro, uma habilidade, uma oportunidade.<br>O próximo encontro pode começar aqui.</p></div>
+      <div class="titulo-secao"><div><p class="sobretitulo">DOAÇÕES · PEDIDOS · PERMUTAS · OPORTUNIDADES</p><h2 id="titulo-mural">Encontre uma conexão.</h2></div><p>Uma refeição, uma carona, uma oportunidade.<br>Oferecer, pedir apoio e construir caminhos juntas.</p></div>
       <form id="filtros" class="filtros" role="search" aria-label="Filtrar anúncios">
         <div class="campo busca"><label for="filtro-busca">O que você procura?</label><input id="filtro-busca" name="busca" maxlength="80" placeholder="Livros, currículo, idiomas…"></div>
-        <div class="campo"><label for="filtro-tipo">Tipo</label><select id="filtro-tipo" name="tipo"><option value="">Todos os tipos</option value="doacao">Doação</option><option value="pedido">Pedido de apoio</option><option value="permuta">Permuta</option><option value="oportunidade">Oportunidade</option></select></div>
-        <div class="campo"><label for="filtro-categoria">Área</label><select id="filtro-categoria" name="categoria"><option value="">Todas as áreas</option><option value="itens">Itens essenciais</option><option value="aprendizagem">Aprendizagem</option><option value="trabalho">Trabalho</option></select></div>
+        <div class="campo"><label for="filtro-tipo">Tipo</label><select id="filtro-tipo" name="tipo"><option value="">Todos os tipos</option><option value="doacao">Doação</option><option value="pedido">Pedido de apoio</option><option value="permuta">Permuta</option><option value="oportunidade">Oportunidade</option></select></div>
+        <div class="campo"><label for="filtro-categoria">Área</label><select id="filtro-categoria" name="categoria"><option value="">Todas as áreas</option>{% for c in catalogo.categorias %}<option value="{{ c.id }}" data-orientacao="{{ c.orientacao }}">{{ c.nome }}</option>{% endfor %}</select></div>
         <div class="campo"><label for="filtro-municipio">Município</label><select id="filtro-municipio" name="municipio_id"><option value="">Todos os municípios</option></select></div>
         <div class="campo"><label for="filtro-status">Situação</label><select id="filtro-status" name="status"><option value="">Todas as situações</option><option value="aberto">Aberto</option><option value="reservado">Reservado</option><option value="concluido">Concluído</option></select></div>
         <button class="botao principal" type="submit">Buscar</button><button class="texto-botao" id="limpar-filtros" type="button">Limpar</button>
@@ -51,9 +54,10 @@
       <div id="vazio" class="vazio" hidden><h3>Nenhum anúncio encontrado.</h3><p>Tente outros filtros ou crie o primeiro anúncio da demonstração.</p></div>
       <div class="paginacao"><button id="anterior" class="botao contorno" disabled>Anterior</button><span id="pagina">Página 1</span><button id="proxima" class="botao contorno" disabled>Próxima</button></div>
     </section>
+    {% include "territorio.html" %}
     <section id="como-funciona" class="como"><div class="container"><p class="sobretitulo">DA NECESSIDADE À POSSIBILIDADE</p><h2>Compartilhar pode ser simples.</h2><div class="passos"><article><span>01</span><h3>Conte o que precisa ou oferece</h3><p>A gestão registra uma doação, um pedido, uma permuta ou uma oportunidade, usando informações gerais.</p></article><article><span>02</span><h3>Encontre possibilidades próximas</h3><p>Busque por categoria e município. As sugestões aproximam doações e pedidos da mesma área e cidade.</p></article><article><span>03</span><h3>Acompanhe cada registro</h3><p>A gestão pode atualizar a situação e encerrar anúncios. As conexões precisam de avaliação humana.</p></article></div></div></section>
-    <section class="container sobre" id="projeto"><div><p class="sobretitulo">ELAS POR ELAS · CITIZENTECH</p><h2>Tecnologia a serviço<br>de uma rede de cuidado.</h2><p>Mulheres conciliam diferentes responsabilidades. A proposta organiza recursos e oportunidades da comunidade para facilitar a busca por apoio, formação e participação.</p><p>O protótipo concentra-se em itens essenciais, aprendizagem e trabalho. Não realiza entregas, contratações, verificação de participantes ou contato entre pessoas.</p><a href="https://experience.fiap.com.br/global-solution-citizen-tech" target="_blank" rel="noopener noreferrer">Conheça o cenário CitizenTech ↗</a></div>
-      <div class="evidencia"><p class="sobretitulo">UM DADO PARA COMEÇAR A CONVERSA</p><p class="numero-dado">21,3 <span>horas por semana</span></p><p>Tempo médio dedicado por mulheres a cuidados e afazeres domésticos em 2022, segundo o IBGE. O dado contextualiza a proposta; sua utilidade local ainda precisa ser validada.</p><a href="https://educa.ibge.gov.br/jovens/materias-especiais/22052-as-mulheres-do-brasil" target="_blank" rel="noopener noreferrer">Consultar a fonte do IBGE ↗</a><div class="ods"><span>ODS 4 · Educação</span><span>ODS 10 · Inclusão</span></div></div>
+    <section class="container sobre" id="projeto"><div><p class="sobretitulo">ELAS POR ELAS · CITIZENTECH</p><h2>Tecnologia a serviço<br>de uma rede de cuidado.</h2><p>Mulheres conciliam diferentes responsabilidades. A proposta organiza recursos e oportunidades da comunidade para facilitar a busca por apoio, formação e participação.</p><p>Quinze áreas conectam alimentos e marmitas, excedentes de restaurantes, caronas, direitos, saúde, lazer, cuidado pessoal, educação, trabalho e economia circular. O diagnóstico reúne necessidades municipais para apoiar propostas de projetos públicos. Entregas e atendimentos dependem de organização humana.</p><a href="https://experience.fiap.com.br/global-solution-citizen-tech" target="_blank" rel="noopener noreferrer">Conheça o cenário CitizenTech ↗</a></div>
+      <div class="evidencia"><p class="sobretitulo">UM DADO PARA COMEÇAR A CONVERSA</p><p class="numero-dado">21,3 <span>horas por semana</span></p><p>Tempo médio dedicado por mulheres a cuidados e afazeres domésticos em 2022, segundo o IBGE. O dado contextualiza a proposta; sua utilidade local ainda precisa ser validada.</p><a href="https://educa.ibge.gov.br/jovens/materias-especiais/22052-as-mulheres-do-brasil" target="_blank" rel="noopener noreferrer">Consultar a fonte do IBGE ↗</a><div class="ods"><span>ODS 2 · Alimentação</span><span>ODS 3 · Saúde</span><span>ODS 4 · Educação</span><span>ODS 5 · Mulheres</span><span>ODS 6 · Saneamento</span><span>ODS 8 · Trabalho</span><span>ODS 10 · Inclusão</span><span>ODS 11 · Cidades</span><span>ODS 12 · Consumo responsável</span><span>ODS 13 · Clima</span><span>ODS 16 · Direitos</span></div><p class="pequeno">Relações propostas com as áreas do projeto. Não representam metas atingidas ou impacto medido.</p></div>
     </section>
     <section class="container localidade" aria-labelledby="titulo-localidades"><div><h2 id="titulo-localidades">Conexões pelo município</h2><p>Lista pública do IBGE para organizar os anúncios por cidade. Não é necessário informar endereço residencial.</p></div><div class="campo"><label for="uf">Estado</label><select id="uf"><option value="SP">São Paulo</option></select></div><button id="atualizar-localidades" class="botao contorno">Consultar IBGE</button><button id="baixar-localidades" class="texto-botao" disabled>Baixar JSON consultado</button><p id="resultado-localidades" class="resultado-localidades" role="status">A lista inicial usa dados públicos de São Paulo incluídos no projeto.</p></section>
     <section class="container gestao-painel" id="painel-gestao" hidden><div><h2>Gestão da demonstração</h2><p>A chave autoriza mudanças em todos os anúncios deste laboratório.</p></div><button id="reenviar-avisos" class="botao contorno">Reenviar avisos pendentes</button><button id="sair-gestao" class="texto-botao">Encerrar acesso</button><p id="resultado-avisos" role="status"></p></section>
@@ -65,7 +69,14 @@
   <dialog id="dialog-anuncio" aria-labelledby="titulo-form"><div class="modal"><button class="fechar" type="button" data-fechar="dialog-anuncio" aria-label="Fechar">×</button><p class="sobretitulo">PARTICIPAR DA REDE</p><h2 id="titulo-form">Criar anúncio</h2><p>Use somente informações fictícias. Não inclua contatos, documentos, links ou dados de crianças.</p><form id="form-anuncio"><div class="form-grade">
     <div class="campo inteiro"><label for="titulo">Título</label><input id="titulo" name="titulo" minlength="5" maxlength="100" required placeholder="Ex.: Livros para novos começos"></div>
     <div class="campo"><label for="tipo">Tipo</label><select id="tipo" name="tipo"><option value="doacao">Doação</option><option value="pedido">Pedido de apoio</option><option value="permuta">Permuta</option><option value="oportunidade">Oportunidade</option></select></div>
-    <div class="campo"><label for="categoria">Área</label><select id="categoria" name="categoria"><option value="itens">Itens essenciais</option><option value="aprendizagem">Aprendizagem</option><option value="trabalho">Trabalho</option></select></div>
+    <div class="campo"><label for="categoria">Área</label><select id="categoria" name="categoria">{% for c in catalogo.categorias %}<option value="{{ c.id }}" data-orientacao="{{ c.orientacao }}">{{ c.nome }}</option>{% endfor %}</select></div>
+    <p class="inteiro orientacao-area" id="orientacao-area"></p>
+    <div class="campo"><label for="quantidade-oferta">Quantidade / vagas</label><input id="quantidade-oferta" name="d_quantidade" type="number" min="1" max="100000" step="1"></div>
+    <div class="campo"><label for="unidade">Unidade</label><select id="unidade" name="d_unidade"><option value="unidade">Unidades</option><option value="kg">Quilos</option><option value="litro">Litros</option><option value="porcao">Porções</option><option value="vaga">Vagas</option><option value="hora">Horas</option></select></div>
+    <div class="campo inteiro"><label for="disponivel-ate">Disponível até / horário da carona (horário local)</label><input id="disponivel-ate" name="d_disponivel_ate" type="datetime-local"></div>
+    <div class="campo inteiro"><label for="cuidados">Conservação, ingredientes/alergênicos ou condições de coleta</label><textarea id="cuidados" name="d_cuidados" maxlength="400" rows="2" placeholder="Descreva condições gerais; não inclua informações pessoais."></textarea></div>
+    <div class="campo trajeto" hidden><label for="origem">Região aproximada de origem</label><input id="origem" name="d_origem" maxlength="80" placeholder="Ex.: região central"></div>
+    <div class="campo trajeto" hidden><label for="destino">Região aproximada de destino</label><input id="destino" name="d_destino" maxlength="80" placeholder="Ex.: polo de serviços"></div>
     <div class="campo inteiro"><label for="descricao">Descrição</label><textarea id="descricao" name="descricao" required minlength="15" maxlength="800" rows="4" placeholder="Descreva a oferta ou a necessidade de forma geral."></textarea></div>
     <div class="campo inteiro" id="campo-contrapartida" hidden><label for="contrapartida">O que gostaria de receber em troca?</label><input id="contrapartida" name="contrapartida" maxlength="200" placeholder="Ex.: Conversação em espanhol"></div>
     <div class="campo"><label for="municipio">Município</label><select id="municipio" name="municipio_id" required><option value="">Selecione</option></select></div>
