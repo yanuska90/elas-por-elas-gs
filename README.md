@@ -13,7 +13,7 @@ A cidadã considerada é uma mulher da comunidade, especialmente uma mãe solo, 
 
 O IBGE informa que mulheres dedicavam, em média, **21,3 horas semanais** a cuidados de pessoas e/ou afazeres domésticos em **2022**. O dado contextualiza a sobrecarga de cuidado; não comprova a demanda de um bairro específico nem a eficácia deste sistema. Não foram realizadas entrevistas ou piloto social nesta entrega. [Fonte primária do IBGE](https://educa.ibge.gov.br/jovens/materias-especiais/22052-as-mulheres-do-brasil).
 
-A proposta adapta as frentes de capacitação, inclusão produtiva e participação comunitária do [CitizenTech FIAP](https://experience.fiap.com.br/global-solution-citizen-tech). ODS do enunciado trabalhados: **2, 3, 4, 10, 11 e 13**. Conexões complementares: **5, 6, 8, 12 e 16**. A relação de cada funcionalidade com os objetivos está em `documentacao/PROJETO_SOCIAL_E_TERRITORIAL.md`; são contribuições propostas, não metas atingidas. Caso a professora classifique este recorte como ideia própria, é necessária a aprovação prevista na atividade.
+A proposta adapta as frentes de capacitação, inclusão produtiva e participação comunitária do [CitizenTech FIAP](https://experience.fiap.com.br/global-solution-citizen-tech). **São 11 ODS relacionados à versão ampliada: 2, 3, 4, 5, 6, 8, 10, 11, 12, 13 e 16.** ODS do enunciado trabalhados: **2, 3, 4, 10, 11 e 13**. Conexões complementares: **5, 6, 8, 12 e 16**. A relação de cada funcionalidade com os objetivos está em `documentacao/PROJETO_SOCIAL_E_TERRITORIAL.md`; são contribuições propostas, não metas atingidas. Caso a professora classifique este recorte como ideia própria, é necessária a aprovação prevista na atividade.
 
 ## O que funciona
 

@@ -7,7 +7,7 @@ Responsável acadêmica: Yanuska Monalisa Antunes Yabiku, RM 571686. Data de org
 1. [FIAP — CitizenTech](https://experience.fiap.com.br/global-solution-citizen-tech). Contexto da Global Solution, participação cidadã, capacitação e inclusão. O nome Elas por Elas é a proposta trazida pela aluna, em continuidade ao trabalho de Linux; não se apresenta como solução oficial da FIAP.
 2. [IBGE Educa — As mulheres do Brasil](https://educa.ibge.gov.br/jovens/materias-especiais/22052-as-mulheres-do-brasil). Dado de 2022: 21,3 horas semanais de cuidados/afazeres entre mulheres. Evidência contextual, não pesquisa local nem prova de eficácia do protótipo.
 3. [IBGE — API de Localidades](https://servicodados.ibge.gov.br/api/docs/localidades). Fonte de códigos e nomes de municípios. Consulta usada: [municípios de SP](https://servicodados.ibge.gov.br/api/v1/localidades/estados/SP/municipios). Snapshot real com 645 itens, em 05/11/2026. Não contém cadastro de pessoas.
-4. [ONU — ODS 4](https://sdgs.un.org/goals/goal4) e [ONU — ODS 10](https://sdgs.un.org/goals/goal10). Relações propostas com aprendizagem e inclusão social/econômica. O sistema não mede os indicadores oficiais desses objetivos.
+4. [ONU Brasil — Objetivos de Desenvolvimento Sustentável](https://brasil.un.org/pt-br/sdgs). A versão ampliada relaciona 11 objetivos: 2, 3, 4, 5, 6, 8, 10, 11, 12, 13 e 16. O nome de cada objetivo e a função correspondente estão no relatório e no documento social. O sistema não mede os indicadores oficiais desses objetivos.
 
 ## Referências técnicas e bibliotecas
 

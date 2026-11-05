@@ -14,6 +14,24 @@ O IBGE registrou 21,3 horas semanais de cuidado/afazeres para mulheres em 2022. 
 
 **Diagnóstico territorial:** reúne necessidades gerais por município e setor. A coordenação acompanha registros, prioridades e situações e gera uma minuta para discussão de projetos públicos. O banco mantém separados os exemplos fictícios dos cadastros com fonte pública. Nem uma prioridade atribuída pela gestão nem uma cor no mapa provam vulnerabilidade ou risco de uma comunidade.
 
+## Os 11 ODS relacionados ao projeto
+
+| ODS | Objetivo | Relação com a implementação |
+|---|---|---|
+| 2 | Fome zero e agricultura sustentável | Doações de alimentos, marmitas, excedentes e hortas comunitárias. |
+| 3 | Saúde e bem-estar | Divulgação de acolhimento, cuidado pessoal e atividades de bem-estar. |
+| 4 | Educação de qualidade | Materiais, reforço escolar, oficinas e inclusão digital. |
+| 5 | Igualdade de gênero | Foco em mulheres e mães solo, considerando a sobrecarga de cuidado. |
+| 6 | Água potável e saneamento | Demandas de água e esgoto; organização da destinação do óleo usado. |
+| 8 | Trabalho decente e crescimento econômico | Capacitação, preparação profissional e divulgação de oportunidades. |
+| 10 | Redução das desigualdades | Acesso a recursos, direitos e apoio sem exigir contrapartida. |
+| 11 | Cidades e comunidades sustentáveis | Mapa de necessidades de moradia, transporte, segurança e lazer. |
+| 12 | Consumo e produção responsáveis | Redução proposta de desperdício, permutas, reciclagem e compostagem. |
+| 13 | Ação contra a mudança global do clima | Educação ambiental e organização de compostagem; sem medir emissões. |
+| 16 | Paz, justiça e instituições eficazes | Informação sobre direitos e demandas para discussão de serviços públicos. |
+
+Nomes oficiais: [ONU Brasil](https://brasil.un.org/pt-br/sdgs). As relações abaixo são propostas do projeto; a entrega não mede cumprimento das metas oficiais.
+
 ## Áreas e ODS: relação proposta
 
 | Área da solução | Contribuição pretendida | ODS |

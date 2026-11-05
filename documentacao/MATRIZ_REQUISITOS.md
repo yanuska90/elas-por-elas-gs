@@ -5,7 +5,7 @@ Yanuska Monalisa Antunes Yabiku · RM 571686
 | Exigência | Implementação | Evidência / verificação |
 |---|---|---|
 | Problema e cidadã | Mural de apoio a mulheres e mães solo; hipótese de reduzir dispersão de ofertas | README, relatório; dado público IBGE; sem entrevista inventada |
-| CitizenTech e ODS | Participação comunitária, aprendizagem e inclusão; ODS 2, 3, 4, 10, 11, 13; complementares 5, 6, 8, 12, 16 | Relatório, fontes; recorte próprio sujeito à regra de aprovação da professora |
+| CitizenTech e ODS | Onze ODS relacionados: 2, 3, 4, 5, 6, 8, 10, 11, 12, 13 e 16; seis da seleção do enunciado e cinco complementares | Página 1 do relatório: nome e relação de cada objetivo com a implementação; fontes e documento social |
 | GET, POST, PUT, DELETE | Recurso `/api/anuncios`, Flask | `elas/aplicacao.py`; `validacao_http.json`; prints 03 a 06 |
 | Status HTTP corretos | 200, 201 com Location, 204; erros 400/401/403/404/405/409/413/415/429/503 | Testes de integração e ciclo HTTP real |
 | MySQL ou MongoDB sem ORM | MySQL Connector/Python; CRUD direto; cinco tabelas | `elas/banco.py`, `sql/esquema.sql`; testes em MySQL 8.4.13 real |
