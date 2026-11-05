@@ -1,0 +1,10 @@
+.env
+.git
+.venv
+__pycache__
+logs
+dados/cache
+evidencias
+documentacao
+testes
+*.zip

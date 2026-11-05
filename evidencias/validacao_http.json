@@ -1,0 +1,109 @@
+{
+  "executado_em": "2026-11-05T11:38:20.734160+00:00",
+  "ambiente": "Windows, Python 3.13, MySQL 8.4.13, Waitress 3.0.2, TCP real",
+  "passos": [
+    {
+      "etapa": "POST sem chave",
+      "status_http": 401,
+      "resposta": {
+        "erro": "Informe a chave de gestão."
+      }
+    },
+    {
+      "etapa": "POST autenticado",
+      "status_http": 201,
+      "resposta": {
+        "item": {
+          "atualizado_em": "2026-11-05T11:38:20Z",
+          "categoria": "itens",
+          "contrapartida": "",
+          "criado_em": "2026-11-05T11:38:20Z",
+          "descricao": "Exemplo fictício: coleção de livros em bom estado para apoiar leitura e atividades educativas. Retirada seria combinada por uma organização parceira em um piloto futuro.",
+          "id": 10,
+          "municipio": "São Bernardo do Campo",
+          "municipio_id": 3548708,
+          "status": "aberto",
+          "tipo": "doacao",
+          "titulo": "Registro fictício do teste HTTP",
+          "uf": "SP",
+          "versao": 1
+        },
+        "notificacao": {
+          "entregues": 1,
+          "pendentes_no_lote": 0
+        }
+      }
+    },
+    {
+      "etapa": "GET registro persistido",
+      "status_http": 200,
+      "resposta": {
+        "item": {
+          "atualizado_em": "2026-11-05T11:38:20Z",
+          "categoria": "itens",
+          "contrapartida": "",
+          "criado_em": "2026-11-05T11:38:20Z",
+          "descricao": "Exemplo fictício: coleção de livros em bom estado para apoiar leitura e atividades educativas. Retirada seria combinada por uma organização parceira em um piloto futuro.",
+          "id": 10,
+          "municipio": "São Bernardo do Campo",
+          "municipio_id": 3548708,
+          "status": "aberto",
+          "tipo": "doacao",
+          "titulo": "Registro fictício do teste HTTP",
+          "uf": "SP",
+          "versao": 1
+        }
+      }
+    },
+    {
+      "etapa": "PUT atualizar",
+      "status_http": 200,
+      "resposta": {
+        "item": {
+          "atualizado_em": "2026-11-05T11:38:20Z",
+          "categoria": "itens",
+          "contrapartida": "",
+          "criado_em": "2026-11-05T11:38:20Z",
+          "descricao": "Exemplo fictício: coleção de livros em bom estado para apoiar leitura e atividades educativas. Retirada seria combinada por uma organização parceira em um piloto futuro.",
+          "id": 10,
+          "municipio": "São Bernardo do Campo",
+          "municipio_id": 3548708,
+          "status": "concluido",
+          "tipo": "doacao",
+          "titulo": "Registro fictício do teste HTTP",
+          "uf": "SP",
+          "versao": 2
+        },
+        "notificacao": {
+          "entregues": 1,
+          "pendentes_no_lote": 0
+        }
+      }
+    },
+    {
+      "etapa": "DELETE excluir",
+      "status_http": 204,
+      "resposta": null
+    },
+    {
+      "etapa": "GET após excluir",
+      "status_http": 404,
+      "resposta": {
+        "erro": "Anúncio não encontrado."
+      }
+    },
+    {
+      "etapa": "GET externo com requests",
+      "status_http": 200,
+      "resposta": {
+        "consultado_em": "2026-11-05T11:35:38.771826+00:00",
+        "desatualizado": false,
+        "origem": "cache",
+        "source": "https://servicodados.ibge.gov.br/api/v1/localidades/estados/SP/municipios",
+        "uf": "SP",
+        "quantidade": 645
+      }
+    }
+  ],
+  "resultado": "aprovado"
+}

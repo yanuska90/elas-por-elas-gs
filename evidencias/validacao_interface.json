@@ -1,0 +1,18 @@
+{
+  "data": "2026-11-05",
+  "ambiente": "Navegador local, Windows, aplicação em 127.0.0.1:5055",
+  "natureza": "Verificação manual assistida por automação de interface; não é pesquisa com usuárias",
+  "resultados": [
+    {"caso": "Página inicial com oito exemplos fictícios", "resultado": "aprovado", "print": "01_pagina_inicial.jpg"},
+    {"caso": "Chave incorreta recusada", "resultado": "aprovado", "print": "02_acesso_protegido.jpg"},
+    {"caso": "Preenchimento de formulário e criação de exemplo descartável", "resultado": "aprovado", "print": "03_formulario_cadastro.jpg"},
+    {"caso": "Cadastro visível e conexão complementar", "resultado": "aprovado", "print": "04_cadastro_e_conexoes.jpg"},
+    {"caso": "Alteração para concluído", "resultado": "aprovado", "print": "05_anuncio_atualizado.jpg"},
+    {"caso": "Exclusão do exemplo descartável", "resultado": "aprovado", "print": "06_exclusao_confirmada.jpg"},
+    {"caso": "Consulta de 645 municípios de SP", "resultado": "aprovado", "print": "07_consulta_ibge.jpg"},
+    {"caso": "Repetição de consulta com origem cache", "resultado": "aprovado", "print": "08_cache_local.jpg"},
+    {"caso": "Largura móvel de 390 px sem transbordamento horizontal", "resultado": "aprovado", "print": "09_tela_celular.jpg"}
+  ],
+  "erros_console_observados_ao_final": 0,
+  "limites": "Não cobre todos os navegadores, acessibilidade integral ou carga concorrente. Não comprova impacto social."
+}

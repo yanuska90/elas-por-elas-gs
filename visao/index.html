@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Elas por Elas: rede comunitária de doações, aprendizado e oportunidades. Protótipo CitizenTech com dados fictícios.">
+  <title>Elas por Elas | Rede comunitária</title>
+  <link rel="icon" href="{{ url_for('static',filename='simbolo.svg') }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ url_for('static',filename='estilo.css') }}">
+  <script src="{{ url_for('static',filename='aplicacao.js') }}" defer></script>
+</head>
+<body>
+  <a href="#mural" class="skip">Ir para o mural</a>
+  <div class="faixa">GLOBAL SOLUTION · CITIZENTECH <span>Demonstração com dados fictícios</span></div>
+  <header class="container cabecalho">
+    <a href="#" class="marca"><img src="{{ url_for('static',filename='simbolo.svg') }}" alt="" width="42" height="42"><span>elas <em>por</em> elas<small>REDE DE APOIO E OPORTUNIDADES</small></span></a>
+    <nav aria-label="Navegação principal"><a href="#mural">O mural</a><a href="#como-funciona">Como funciona</a><a href="#projeto">O projeto</a></nav>
+    <button id="abrir-gestao" class="botao contorno">Acesso à gestão</button>
+  </header>
+  <main>
+    <section class="container hero" aria-labelledby="titulo-principal">
+      <div><p class="sobretitulo">CONEXÕES QUE COMEÇAM NA COMUNIDADE</p>
+        <h1 id="titulo-principal">Uma rede de apoio.<br><em>Muitas possibilidades.</em></h1>
+        <p class="introducao">Aproximar o que alguém pode oferecer daquilo que outra mulher precisa. Doações, conhecimentos e oportunidades para construir novos caminhos, juntas.</p>
+        <div class="acoes"><a class="botao principal" href="#mural">Explorar o mural <span aria-hidden="true">↗</span></a><button class="botao contorno" id="novo-anuncio">Criar um anúncio <span aria-hidden="true">+</span></button></div>
+        <p class="nota-hero">Apoio para mulheres e mães solo. Pedir ajuda não exige oferecer algo em troca.</p>
+      </div>
+      <aside class="hero-painel" aria-label="Proposta da rede">
+        <div class="circulos" aria-hidden="true"><span>E</span><span>+</span><span>E</span></div>
+        <p class="painel-numero">Uma comunidade,<br><em>muitas formas de cuidar.</em></p>
+        <div class="pilares"><span>01 &nbsp; Compartilhar recursos</span><span>02 &nbsp; Trocar conhecimentos</span><span>03 &nbsp; Ampliar oportunidades</span></div>
+        <div class="selo">Conexões locais · ODS 4 e 10</div>
+      </aside>
+    </section>
+    <section class="container indicadores" aria-label="Registros da demonstração">
+      <div><strong id="total-anuncios">—</strong><span>anúncios no mural</span></div><div><strong id="total-pedidos">—</strong><span>pedidos de apoio</span></div><div><strong id="total-concluidos">—</strong><span>cadastros concluídos</span></div><p>Contagem de registros fictícios.<br>Não representa impacto social medido.</p>
+    </section>
+    <section id="mural" class="container mural" aria-labelledby="titulo-mural">
+      <div class="titulo-secao"><div><p class="sobretitulo">DOAÇÕES · PEDIDOS · PERMUTAS · OPORTUNIDADES</p><h2 id="titulo-mural">Encontre uma conexão.</h2></div><p>Um livro, uma habilidade, uma oportunidade.<br>O próximo encontro pode começar aqui.</p></div>
+      <form id="filtros" class="filtros" role="search" aria-label="Filtrar anúncios">
+        <div class="campo busca"><label for="filtro-busca">O que você procura?</label><input id="filtro-busca" name="busca" maxlength="80" placeholder="Livros, currículo, idiomas…"></div>
+        <div class="campo"><label for="filtro-tipo">Tipo</label><select id="filtro-tipo" name="tipo"><option value="">Todos os tipos</option value="doacao">Doação</option><option value="pedido">Pedido de apoio</option><option value="permuta">Permuta</option><option value="oportunidade">Oportunidade</option></select></div>
+        <div class="campo"><label for="filtro-categoria">Área</label><select id="filtro-categoria" name="categoria"><option value="">Todas as áreas</option><option value="itens">Itens essenciais</option><option value="aprendizagem">Aprendizagem</option><option value="trabalho">Trabalho</option></select></div>
+        <div class="campo"><label for="filtro-municipio">Município</label><select id="filtro-municipio" name="municipio_id"><option value="">Todos os municípios</option></select></div>
+        <div class="campo"><label for="filtro-status">Situação</label><select id="filtro-status" name="status"><option value="">Todas as situações</option><option value="aberto">Aberto</option><option value="reservado">Reservado</option><option value="concluido">Concluído</option></select></div>
+        <button class="botao principal" type="submit">Buscar</button><button class="texto-botao" id="limpar-filtros" type="button">Limpar</button>
+      </form>
+      <div class="linha-resultados"><p id="quantidade" aria-live="polite">Carregando o mural…</p><button class="texto-botao" id="recarregar">Atualizar mural ↻</button></div>
+      <div id="mensagem" class="mensagem" role="status" aria-live="polite" hidden></div>
+      <div id="lista-anuncios" class="grade" aria-busy="true"></div>
+      <div id="vazio" class="vazio" hidden><h3>Nenhum anúncio encontrado.</h3><p>Tente outros filtros ou crie o primeiro anúncio da demonstração.</p></div>
+      <div class="paginacao"><button id="anterior" class="botao contorno" disabled>Anterior</button><span id="pagina">Página 1</span><button id="proxima" class="botao contorno" disabled>Próxima</button></div>
+    </section>
+    <section id="como-funciona" class="como"><div class="container"><p class="sobretitulo">DA NECESSIDADE À POSSIBILIDADE</p><h2>Compartilhar pode ser simples.</h2><div class="passos"><article><span>01</span><h3>Conte o que precisa ou oferece</h3><p>A gestão registra uma doação, um pedido, uma permuta ou uma oportunidade, usando informações gerais.</p></article><article><span>02</span><h3>Encontre possibilidades próximas</h3><p>Busque por categoria e município. As sugestões aproximam doações e pedidos da mesma área e cidade.</p></article><article><span>03</span><h3>Acompanhe cada registro</h3><p>A gestão pode atualizar a situação e encerrar anúncios. As conexões precisam de avaliação humana.</p></article></div></div></section>
+    <section class="container sobre" id="projeto"><div><p class="sobretitulo">ELAS POR ELAS · CITIZENTECH</p><h2>Tecnologia a serviço<br>de uma rede de cuidado.</h2><p>Mulheres conciliam diferentes responsabilidades. A proposta organiza recursos e oportunidades da comunidade para facilitar a busca por apoio, formação e participação.</p><p>O protótipo concentra-se em itens essenciais, aprendizagem e trabalho. Não realiza entregas, contratações, verificação de participantes ou contato entre pessoas.</p><a href="https://experience.fiap.com.br/global-solution-citizen-tech" target="_blank" rel="noopener noreferrer">Conheça o cenário CitizenTech ↗</a></div>
+      <div class="evidencia"><p class="sobretitulo">UM DADO PARA COMEÇAR A CONVERSA</p><p class="numero-dado">21,3 <span>horas por semana</span></p><p>Tempo médio dedicado por mulheres a cuidados e afazeres domésticos em 2022, segundo o IBGE. O dado contextualiza a proposta; sua utilidade local ainda precisa ser validada.</p><a href="https://educa.ibge.gov.br/jovens/materias-especiais/22052-as-mulheres-do-brasil" target="_blank" rel="noopener noreferrer">Consultar a fonte do IBGE ↗</a><div class="ods"><span>ODS 4 · Educação</span><span>ODS 10 · Inclusão</span></div></div>
+    </section>
+    <section class="container localidade" aria-labelledby="titulo-localidades"><div><h2 id="titulo-localidades">Conexões pelo município</h2><p>Lista pública do IBGE para organizar os anúncios por cidade. Não é necessário informar endereço residencial.</p></div><div class="campo"><label for="uf">Estado</label><select id="uf"><option value="SP">São Paulo</option></select></div><button id="atualizar-localidades" class="botao contorno">Consultar IBGE</button><button id="baixar-localidades" class="texto-botao" disabled>Baixar JSON consultado</button><p id="resultado-localidades" class="resultado-localidades" role="status">A lista inicial usa dados públicos de São Paulo incluídos no projeto.</p></section>
+    <section class="container gestao-painel" id="painel-gestao" hidden><div><h2>Gestão da demonstração</h2><p>A chave autoriza mudanças em todos os anúncios deste laboratório.</p></div><button id="reenviar-avisos" class="botao contorno">Reenviar avisos pendentes</button><button id="sair-gestao" class="texto-botao">Encerrar acesso</button><p id="resultado-avisos" role="status"></p></section>
+  </main>
+  <footer><div class="container rodape"><div class="marca">elas <em>por</em> elas</div><p>Yanuska Monalisa Antunes Yabiku · RM 571686<br>GS · Coding for Security · Prof.ª Leide</p><p>Protótipo acadêmico · Dados fictícios e abertos<br>Sem coleta de contatos, documentos ou dados de crianças.</p></div></footer>
+
+  <!-- Diálogos nativos mantêm foco e permitem fechar com Escape. -->
+  <dialog id="dialog-gestao" aria-labelledby="titulo-gestao"><div class="modal"><button class="fechar" type="button" data-fechar="dialog-gestao" aria-label="Fechar">×</button><p class="sobretitulo">ÁREA DE GESTÃO</p><h2 id="titulo-gestao">Gerenciar o mural</h2><p>Informe a chave configurada para esta demonstração. Ela será mantida somente enquanto esta página estiver aberta.</p><form id="form-gestao"><div class="campo"><label for="chave">Chave de gestão</label><input id="chave" type="password" autocomplete="off" required maxlength="200"></div><p id="erro-gestao" class="erro" role="alert"></p><button class="botao principal" type="submit">Liberar gestão</button></form></div></dialog>
+  <dialog id="dialog-anuncio" aria-labelledby="titulo-form"><div class="modal"><button class="fechar" type="button" data-fechar="dialog-anuncio" aria-label="Fechar">×</button><p class="sobretitulo">PARTICIPAR DA REDE</p><h2 id="titulo-form">Criar anúncio</h2><p>Use somente informações fictícias. Não inclua contatos, documentos, links ou dados de crianças.</p><form id="form-anuncio"><div class="form-grade">
+    <div class="campo inteiro"><label for="titulo">Título</label><input id="titulo" name="titulo" minlength="5" maxlength="100" required placeholder="Ex.: Livros para novos começos"></div>
+    <div class="campo"><label for="tipo">Tipo</label><select id="tipo" name="tipo"><option value="doacao">Doação</option><option value="pedido">Pedido de apoio</option><option value="permuta">Permuta</option><option value="oportunidade">Oportunidade</option></select></div>
+    <div class="campo"><label for="categoria">Área</label><select id="categoria" name="categoria"><option value="itens">Itens essenciais</option><option value="aprendizagem">Aprendizagem</option><option value="trabalho">Trabalho</option></select></div>
+    <div class="campo inteiro"><label for="descricao">Descrição</label><textarea id="descricao" name="descricao" required minlength="15" maxlength="800" rows="4" placeholder="Descreva a oferta ou a necessidade de forma geral."></textarea></div>
+    <div class="campo inteiro" id="campo-contrapartida" hidden><label for="contrapartida">O que gostaria de receber em troca?</label><input id="contrapartida" name="contrapartida" maxlength="200" placeholder="Ex.: Conversação em espanhol"></div>
+    <div class="campo"><label for="municipio">Município</label><select id="municipio" name="municipio_id" required><option value="">Selecione</option></select></div>
+    <div class="campo"><label for="situacao">Situação</label><select id="situacao" name="status"><option value="aberto">Aberto</option><option value="reservado">Reservado</option><option value="concluido">Concluído</option></select></div>
+  </div><p id="erro-anuncio" class="erro" role="alert"></p><div class="acoes"><button type="button" class="botao contorno" data-fechar="dialog-anuncio">Cancelar</button><button type="submit" class="botao principal" id="salvar">Salvar anúncio</button></div></form></div></dialog>
+  <dialog id="dialog-detalhes" aria-labelledby="titulo-detalhe"><div class="modal"><button class="fechar" type="button" data-fechar="dialog-detalhes" aria-label="Fechar">×</button><p id="tipo-detalhe" class="sobretitulo"></p><h2 id="titulo-detalhe"></h2><p id="descricao-detalhe" class="preservar-linhas"></p><dl id="fatos-detalhe" class="fatos"></dl><h3>Possíveis conexões</h3><p id="criterio-conexoes"></p><ul id="conexoes"></ul><p class="pequeno">Sugestões por categoria e município. Avalie as descrições: não há confirmação de entrega ou atendimento.</p><div id="acoes-detalhe" class="acoes" hidden><button id="editar" class="botao principal">Editar anúncio</button><button id="excluir" class="botao perigo">Excluir anúncio</button></div></div></dialog>
+  <dialog id="dialog-excluir" aria-labelledby="titulo-excluir"><div class="modal"><h2 id="titulo-excluir">Excluir este anúncio?</h2><p>O registro será removido do mural. O log preserva somente a referência técnica da operação.</p><p id="erro-excluir" class="erro" role="alert"></p><div class="acoes"><button class="botao contorno" data-fechar="dialog-excluir">Cancelar</button><button id="confirmar-exclusao" class="botao perigo">Confirmar exclusão</button></div></div></dialog>
+</body>
+</html>

@@ -1,0 +1,49 @@
+name: elas-por-elas-gs
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Execute python preparar.py}
+      MYSQL_DATABASE: ${DB_NAME:-elas_por_elas}
+      MYSQL_USER: ${DB_USER:-elas_app}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Execute python preparar.py}
+    ports:
+      - "127.0.0.1:3308:3306"
+    volumes:
+      - banco:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+  receptor:
+    build: .
+    command: ["python", "receptor_tcp.py"]
+    env_file: .env
+    environment:
+      TCP_BIND: 0.0.0.0
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+  web:
+    build: .
+    env_file: .env
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      APP_HOST: 0.0.0.0
+      TCP_HOST: receptor
+    ports:
+      - "127.0.0.1:5055:5055"
+    volumes:
+      - ./logs:/app/logs
+      - ./dados/cache:/app/dados/cache
+    depends_on:
+      mysql:
+        condition: service_healthy
+      receptor:
+        condition: service_started
+    restart: unless-stopped
+volumes:
+  banco:

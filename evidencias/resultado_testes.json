@@ -1,0 +1,12 @@
+{
+  "executado_em": "2026-11-05T11:31:03.773444+00:00",
+  "python": "3.13.12",
+  "integracao_mysql": true,
+  "testes": 33,
+  "falhas": 0,
+  "erros": 0,
+  "ignorados": 0,
+  "sucesso": true,
+  "detalhes_falhas": [],
+  "detalhes_ignorados": []
+}
